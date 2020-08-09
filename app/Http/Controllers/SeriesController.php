@@ -8,11 +8,7 @@ class SeriesController extends Controller
 {
 
     public function index(Request $request) {
-        $series = [
-            'House',
-            'Lost',
-            'Dark'
-        ];
+        $series = Serie::all();
 
         return view('series.index', compact('series'));
 
@@ -26,9 +22,12 @@ class SeriesController extends Controller
     public function store(Request $request) 
     {
         $name = $request->name;
-        $serie = new Serie();
-        $serie->name = $name;
-        var_dump($serie->save());
+        $serie = Serie::create([
+            'name' => $name
+        ]);
+        
+        echo "Sitcom with ID {$serie->id} create: {$serie->name}";
+
     }
 
 
