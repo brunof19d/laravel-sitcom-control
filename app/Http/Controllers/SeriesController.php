@@ -6,12 +6,11 @@ use Illuminate\Http\Request;
 
 class SeriesController extends Controller
 {
-
-    public function index(Request $request) {
-        $series = Serie::all();
-
-        return view('series.index', compact('series'));
-
+    public function index(Request $request) 
+    {
+        $series = Serie::query()->orderBy('name')->get();
+        $mgs = $request->session()->get('mgs');
+        return view('series.index', compact('series', 'mgs'));
     }
 
     public function create()
@@ -21,14 +20,23 @@ class SeriesController extends Controller
 
     public function store(Request $request) 
     {
-        $name = $request->name;
-        $serie = Serie::create([
-            'name' => $name
-        ]);
-        
-        echo "Sitcom with ID {$serie->id} create: {$serie->name}";
-
+        $serie = Serie::create($request->all());
+        $request->session()
+            ->flash(
+                'mgs', 
+                "Sitcom {$serie->id} create: {$serie->name}"
+            );
+        return redirect('/series');
     }
 
-
+    public function destroy(Request $request)
+    {
+        Serie::destroy($request->id);
+        $request->session()
+            ->flash(
+                'mgs',
+                "Sitcom remove"
+            );    
+        return redirect('/series');
+    }
 }
