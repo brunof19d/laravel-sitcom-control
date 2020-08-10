@@ -26,7 +26,7 @@ class SeriesController extends Controller
                 'mgs', 
                 "Sitcom {$serie->id} create: {$serie->name}"
             );
-        return redirect('/series');
+        return redirect()->route('show_series');
     }
 
     public function destroy(Request $request)
@@ -37,6 +37,6 @@ class SeriesController extends Controller
                 'mgs',
                 "Sitcom remove"
             );    
-        return redirect('/series');
+        return redirect()->route('show_series');;
     }
 }
