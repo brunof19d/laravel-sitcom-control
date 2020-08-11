@@ -21,12 +21,24 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request) 
     {
-        $serie = Serie::create($request->all());
+        $serie = Serie::create(['name' => $request->name]);
+        $numberSeasons = $request->number_seasons;
+
+        for ($i=0; $i <= $numberSeasons; $i++) {
+            $season = $serie->seasons()->create(['number'=> $i]);
+
+            for ($j = 1; $j <= $request->episodes_by_seasons; $j++) {
+                $season->episodes()->create(['number' => $j]);
+            }
+
+        }
+
         $request->session()
             ->flash(
                 'mgs', 
                 "Sitcom {$serie->id} create: {$serie->name}"
             );
+            
         return redirect()->route('show_series');
     }
 
