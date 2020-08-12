@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Serie;
 use Illuminate\Http\Request;
+use App\Services\CreatorSerie;
 use App\Http\Requests\SeriesFormRequest;
 
 class SeriesController extends Controller
 {
-    public function index(Request $request) 
+    public function index(Request $request)
     {
         $series = Serie::query()->orderBy('name')->get();
         $mgs = $request->session()->get('mgs');
@@ -16,29 +18,19 @@ class SeriesController extends Controller
 
     public function create()
     {
-        return view ('series.create');
+        return view('series.create');
     }
 
-    public function store(SeriesFormRequest $request) 
+    public function store(SeriesFormRequest $request, CreatorSerie $createSerie)
     {
-        $serie = Serie::create(['name' => $request->name]);
-        $numberSeasons = $request->number_seasons;
-
-        for ($i=0; $i <= $numberSeasons; $i++) {
-            $season = $serie->seasons()->create(['number'=> $i]);
-
-            for ($j = 1; $j <= $request->episodes_by_seasons; $j++) {
-                $season->episodes()->create(['number' => $j]);
-            }
-
-        }
+        $serie = $createSerie->createSerie($request->name, $request->number_seasons, $request->episodes_by_seasons);
 
         $request->session()
             ->flash(
-                'mgs', 
+                'mgs',
                 "Sitcom {$serie->id} create: {$serie->name}"
             );
-            
+
         return redirect()->route('show_series');
     }
 
@@ -49,7 +41,7 @@ class SeriesController extends Controller
             ->flash(
                 'mgs',
                 "Sitcom remove"
-            );    
+            );
         return redirect()->route('show_series');;
     }
 }
