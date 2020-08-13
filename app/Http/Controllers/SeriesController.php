@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Serie;
 use Illuminate\Http\Request;
 use App\Services\CreatorSerie;
+use App\Services\RemoverSerie;
 use App\Http\Requests\SeriesFormRequest;
 
 class SeriesController extends Controller
@@ -34,13 +35,14 @@ class SeriesController extends Controller
         return redirect()->route('show_series');
     }
 
-    public function destroy(Request $request)
+    public function destroy(Request $request, RemoverSerie $removeSerie)
     {
-        Serie::destroy($request->id);
+        $nameSerie = $removeSerie->removeSerie($request->id);
+
         $request->session()
             ->flash(
                 'mgs',
-                "Sitcom remove"
+                "Sitcom successfully removed"
             );
         return redirect()->route('show_series');;
     }
