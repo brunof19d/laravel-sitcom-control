@@ -28,7 +28,7 @@ class RemoverSerie
         });
     }
 
-    private function removeEpisodes(Season $season)
+    private function removeEpisodes(Season $season): void
     {
         $season->episodes()->each(function (Episode $episode) {
             $episode->delete();

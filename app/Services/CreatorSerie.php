@@ -20,7 +20,7 @@ class CreatorSerie
 
     public function makeSeasons(int $numberSeasons, int $numberEpisode, Serie $serie)
     {
-        for ($i = 0; $i <= $numberSeasons; $i++) {
+        for ($i = 1; $i <= $numberSeasons; $i++) {
             $season = $serie->seasons()->create(['number' => $i]);
 
             $this->makeEpisodes($numberEpisode, $season);
