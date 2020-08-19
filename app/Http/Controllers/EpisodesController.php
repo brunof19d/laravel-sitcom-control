@@ -8,12 +8,13 @@ use Illuminate\Http\Request;
 
 class EpisodesController extends Controller
 {
-    public function index(Season $season)
+    public function index(Season $season, Request $request)
     {
         return view('episodes.index', [
-            'episodes' => $season->episodes,
-         'seasonId' => $season->id
-         ]);
+            'episodes'  => $season->episodes,
+            'seasonId'  => $season->id,
+            'mgs'   => $request->session()->get('mgs')
+        ]);
     }
 
     public function viewcheck(Season $season, Request $request)
@@ -28,5 +29,8 @@ class EpisodesController extends Controller
             } 
         );
         $season->push();
+        $request->session()->flash('mgs', 'Episodes marked as watched');
+
+        return redirect()->back();
     }
 }
