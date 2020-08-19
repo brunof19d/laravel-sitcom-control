@@ -13,7 +13,8 @@ Seasons of {{ $serie->name }}
                 Season {{ $season->number }}
             </a>
             <span class="badge badge-secondary">
-                {{ $season->episodes->count() }}
+                {{-- Episodes how many episodes watched ////// Total sitcom episodes --}}
+                {{ $season->getEpisodesView()->count() }} / {{ $season->episodes->count() }}
             </span>
         </li>
     @endforeach

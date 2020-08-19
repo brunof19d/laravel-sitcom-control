@@ -9,3 +9,7 @@ Route::get('series/{serieId}/seasons', 'SeasonsController@index');
 Route::get('seasons/{season}/episodes', 'EpisodesController@index');
 Route::post('seasons/{season}/episodes/viewcheck', 'EpisodesController@viewcheck');
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
