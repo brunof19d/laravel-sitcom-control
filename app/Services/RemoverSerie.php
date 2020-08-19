@@ -12,7 +12,7 @@ class RemoverSerie
     public function removeSerie(int $serieId): string
     {
         $nameSerie = '';
-        DB::transaction(function () use ($serieId, &$nameSerie) {
+        DB::transaction( function () use ($serieId, &$nameSerie) {
             $serie = Serie::find($serieId);
             $nameSerie = $serie->name;
             $this->removeSeasons($serie);
@@ -25,6 +25,7 @@ class RemoverSerie
     {
         $serie->seasons->each(function (Season $season) {
             $this->removeEpisodes($season);
+            $season->delete();
         });
     }
 
@@ -35,3 +36,4 @@ class RemoverSerie
         });
     }
 }
+
