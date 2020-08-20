@@ -10,8 +10,10 @@ Sitcom Control
     {{ $mgs }}
 </div>
 @endif
-<a href="{{route('form_create_serie')}}" class="btn btn-dark mb-2"><i class="fas fa-plus"></i> Add series</a>
 
+@auth
+    <a href="{{route('form_create_serie')}}" class="btn btn-dark mb-2"><i class="fas fa-plus"></i> Add series</a>
+@endauth
 <ul class="list-group">
     @foreach ($series as $serie)
         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -26,17 +28,21 @@ Sitcom Control
                 </div>
             </div>
             <span class="d-flex">
-                <button class="btn btn-info btn-sm mr-1" onclick="toggleInput({{ $serie->id }})">
-                    <i class="fas fa-edit"></i>
-                </button>
+                @auth
+                    <button class="btn btn-info btn-sm mr-1" onclick="toggleInput({{ $serie->id }})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                @endauth
                 <a href="/series/{{ $serie->id }}/seasons" class="btn btn-info btn-sm mr-1">
                     <i class="fas fa-external-link-alt"></i>
                 </a>
-                <form action="/series/remove/{{ $serie->id}}" method="POST" onsubmit="return confirm('Are you sure want to remove {{ addslashes( $serie->name )}}?')">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger"><i class="fas fa-trash"></i> Remove</button>
-                </form>
+                @auth
+                    <form action="/series/remove/{{ $serie->id}}" method="POST" onsubmit="return confirm('Are you sure want to remove {{ addslashes( $serie->name )}}?')">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger"><i class="fas fa-trash"></i> Remove</button>
+                    </form>
+                @endauth
             </span>
         </li>
     @endforeach

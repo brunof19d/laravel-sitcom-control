@@ -10,11 +10,11 @@ use App\Http\Requests\SeriesFormRequest;
 
 class SeriesController extends Controller
 {
-
-    public function __construct()   
-    {
-        $this->middleware('auth');
-    }
+    // If you wanted all routes to need authentication, uncomment this line of code.
+    // public function __construct()   
+    // {
+    //     $this->middleware('auth');
+    // }
 
     public function index(Request $request)
     {

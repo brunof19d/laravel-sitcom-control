@@ -10,6 +10,17 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2 d-flex justify-content-between">
+        <a class="navbar navbar-expand-lg" href="{{ route('show_series') }}">Home</a>
+        @auth
+            <a href="/mylogout" class="text-danger">Logout</a> 
+        @endauth
+
+        @guest
+            <a href="/series" class="text-danger">Login</a>  
+        @endguest
+        
+    </nav>
     <div class="container">
         <div class="jumbotron">
             <h1>@yield('header')</h1>
