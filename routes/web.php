@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 // Route Home
 Route::get('series', 'SeriesController@index')->name('show_series');
@@ -32,4 +33,8 @@ Route::get('/mylogout', function () {
     Auth::logout();
     return redirect('/mylogin');
 });
+
+
+
+
 
